@@ -6,6 +6,33 @@ from vtk import *
 from vtk.util import numpy_support
 from vtk.util.numpy_support import vtk_to_numpy
 
+def GetData(fileName):
+    reader = vtkPolyDataReader()
+    reader.SetFileName(fileName)
+    reader.ReadAllVectorsOn()
+    reader.ReadAllScalarsOn()
+    reader.Update()
+
+    return reader.GetOutput()
+
+def GetActor(data):
+    numOrgans = 8
+    lut = MakeLUT(numOrgans)
+
+    mapper = vtk.vtkPolyDataMapper()
+    mapper.SetInputData(data)
+    mapper.SetLookupTable(lut)
+    mapper.SetScalarVisibility(1)
+    mapper.SetScalarRange(0, numOrgans-1)
+    mapper.SetScalarModeToUseCellData()
+    mapper.Update()
+
+    actor = vtk.vtkActor()
+    actor.SetMapper(mapper)
+    actor.GetProperty().SetPointSize(20)
+
+    return actor
+
 def PointToPointDistance(referencePolyData, polyData):
     referencePoints = vtk_to_numpy(referencePolyData.GetPoints().GetData())
     dataPoints = vtk_to_numpy(polyData.GetPoints().GetData())
@@ -51,48 +78,26 @@ def MakeLUT(tableSize):
  
     return lut
 
-modelReader = vtkPolyDataReader()
-modelReader.SetFileName("../model.vtk")
-modelReader.ReadAllVectorsOn()
-modelReader.ReadAllScalarsOn()
-modelReader.Update()
 
-modelData = modelReader.GetOutput()
 
-patientReader = vtkPolyDataReader()
-patientReader.SetFileName("../pat1.vtk")
-patientReader.ReadAllVectorsOn()
-patientReader.ReadAllScalarsOn()
-patientReader.Update()
-
-patientData = patientReader.GetOutput()
+referenceData = GetData("../model.vtk")
+patientData = GetData("../pat1.vtk")
 
 print("Calculating point-to-point distance.")
-dist = PointToPointDistance(modelData, patientData)
+dist = PointToPointDistance(referenceData, patientData)
 print("Mean distance to reference: " + str(dist))
 
-numOrgans = 8
-lut = MakeLUT(numOrgans)
+referenceActor = GetActor(referenceData)
+patientActor = GetActor(patientData)
 
-mapper = vtk.vtkPolyDataMapper()
-mapper.SetInputData(modelData)
-mapper.SetLookupTable(lut)
-mapper.SetScalarVisibility(1)
-mapper.SetScalarRange(0, numOrgans-1)
-mapper.SetScalarModeToUseCellData()
-mapper.Update()
-
-actor = vtk.vtkActor()
-actor.SetMapper(mapper)
-actor.GetProperty().SetPointSize(20)
- 
 renderer = vtk.vtkRenderer()
 renderWindow = vtk.vtkRenderWindow()
 renderWindow.AddRenderer(renderer)
 renderWindowInteractor = vtk.vtkRenderWindowInteractor()
 renderWindowInteractor.SetRenderWindow(renderWindow)
  
-renderer.AddActor(actor)
+renderer.AddActor(referenceActor)
+renderer.AddActor(patientActor)
  
 renderWindow.Render()
 renderWindowInteractor.Start()
