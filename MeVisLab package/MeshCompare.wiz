@@ -1,0 +1,37 @@
+// MDL v1 utf8
+wizard = MLModuleWizard
+fields  {
+  instanceName = wizard
+  moduleName = MeshDeviation
+  author = "   Samuel"
+  group = ""
+  comment = "Calculates the difference between two meshes"
+  keywords = ""
+  seeAlso = ""
+  exampleNetwork = FALSE
+  project = MeshCompare
+  projectPrefix = _ML
+  includeProjectFiles = TRUE
+  showMaintainer = TRUE
+  maintainer = ""
+  stepTitle = "Module Field Interface"
+  stepInfo = "Add fields to the interface of the module."
+  packageIdentifier = MedVis/MeshCompare
+  storedFieldList = "fieldName@fieldType@fieldComment@fieldValue@fieldValues"
+  fieldSelected = FALSE
+  numInputs = 2
+  numOutputs = 1
+  calcTemplate = TRUE
+  fields = ""
+  moduleType = Classic
+  addConfigHints = TRUE
+  addWindowSectionToDef = TRUE
+  addFieldAttachToOuts = TRUE
+  addActivateAttachments = TRUE
+  addHandleInput = FALSE
+  addCalcInSubImageBox = TRUE
+  addModifyInOutDataTypes = TRUE
+  addCalcOutSubImageLoop = TRUE
+  addAbstractCalcOutSubImageLoop = FALSE
+  typedCalculateOutputPersistentConfiguration = "Fixed%%%MLdouble@Fixed%%%MLdouble@SameAs%Output Image%%"
+}

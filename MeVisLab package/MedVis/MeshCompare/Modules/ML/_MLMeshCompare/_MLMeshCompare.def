@@ -1,0 +1,20 @@
+//----------------------------------------------------------------------------------
+//! _MLMeshCompare module definitions.
+/*!
+// \file    _MLMeshCompare.def
+// \author     Samuel
+// \date    2016-11-27
+*/
+//----------------------------------------------------------------------------------
+
+
+MLModule MeshDeviation {
+  DLL                = "_MLMeshCompare"
+
+  genre              = ""
+  author             = "   Samuel"
+  comment            = "Calculates the difference between two meshes"
+  keywords           = ""
+  seeAlso            = ""
+  externalDefinition = $(LOCAL)/MeshDeviation.script
+}  

@@ -1,0 +1,204 @@
+// MDL v1 utf8
+network  {
+  watchlist = ""
+}
+module vtkPolyDataReader {
+  internal  {
+    frame = "621 621 136 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1003 198 318 371"
+        sizeHint = "239 371"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkPolyDataReader
+    readAllScalars = 1
+    readAllVectors = 0
+    readAllNormals = 0
+    readAllTensors = 0
+    readAllColorScalars = 0
+    readAllTCoords = 0
+    readAllFields = 0
+    status = "Output is valid"
+    unresolvedFileName = $(NETWORK)/pat7.vtk
+  }
+}
+module SoExaminerViewer {
+  internal  {
+    frame = "589 189 136 56"
+    moduleGroupName = ""
+    windows  {
+      window _viewer {
+        geometry = "621 267 675 400"
+        sizeHint = "400 400"
+        wasOpen = no
+      }
+      window _default {
+        geometry = "595 93 511 367"
+        sizeHint = "511 367"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SoExaminerViewer
+    renderCaching = AUTO
+    boundingBoxCaching = AUTO
+    renderCulling = AUTO
+    pickCulling = AUTO
+    border = FALSE
+    background = "0 0 0"
+    transparency = BLEND
+    antialiasing = FALSE
+    antialiasingNumPasses = 1
+    hiResRendering = FALSE
+    useSampleBuffers = FALSE
+    numSamples = 8
+    grabKeyFocus = TRUE
+    enableKeyCommands = TRUE
+    snapshotFormat = SNAPSHOT_RGB
+    outputAviFile = ""
+    autoRedrawWhenRecording = TRUE
+    frameRate = 7
+    frameRateAvi = 15
+    outputSnapshotFile = none
+    outputSnapshotFileWritten = none
+    autoIncreaseFile = TRUE
+    showSnapshotWithShell = FALSE
+    snapCount = 0
+    inputDevicesList = ""
+    headlight = TRUE
+    decoration = TRUE
+    popupMenuEnabled = FALSE
+    viewing = TRUE
+    autoClipping = TRUE
+    drawStyle = VIEW_AS_IS
+    interactiveDrawStyle = VIEW_LOW_COMPLEXITY
+    viewAllFlag = FALSE
+    initialCameraOrientation = CAMERA_KEEP_AS_IS
+    applyCameraOrientation = CAMERA_KEEP_AS_IS
+    cameraType = CAMERA_ORTHOGRAPHIC
+    autoApplyUserSettingOrientation = FALSE
+    userSettingOrientation = "0 0 1 0"
+    automaticViewAll = FALSE
+    storeCurrentState = TRUE
+    saveCamera = TRUE
+    cursor = TRUE
+    isCameraStored = TRUE
+    perspective = FALSE
+    stereoViewing = FALSE
+    stereoOffset = 3
+    height = 181.0743
+    position = "-83.1595306396484 -38.6357460021973 -26.4379558563232"
+    orientation = "-0.754837214946747 0.40906172990799 0.512727200984955 4.39184522628784"
+    nearDistance = 18.904196
+    farDistance = 162.31161
+    focalDistance = 90.537148
+    forceRedrawOnInteraction = FALSE
+    button1events = TO_VIEWER
+    button2events = TO_VIEWER
+    button3events = TO_VIEWER
+    keyEvents = TO_VIEWER
+    animationEnabled = FALSE
+    feedback = FALSE
+    feedbackSize = 32
+    mouseInteraction = ""
+    rotationAxis = "0 1 0"
+    rotationAngle = 360
+    rotationSteps = 80
+    recordRotation = TRUE
+  }
+}
+module SoVTK {
+  internal  {
+    frame = "661 269 72 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "290 309 226 50"
+        sizeHint = "226 50"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SoVTK
+    status = "Valid vtkProp connected"
+    renderMode = RENDER_DIRECT
+  }
+}
+module vtkPolyDataMapper {
+  internal  {
+    frame = "709 517 136 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1129 86 610 909"
+        sizeHint = "591 909"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkPolyDataMapper
+    piece = 0
+    numberOfPieces = 1
+    numberOfSubPieces = 1
+    ghostLevel = 0
+    scalarVisibility = 1
+    static = 0
+    colorMode = 1
+    interpolateScalarsBeforeMapping = 0
+    useLookupTableScalarRange = 0
+    immediateModeRendering = 0
+    scalarMode = 2
+    scalarMaterialMode = 0
+    scalarRange = "0 7 "
+    globalImmediateModeRendering = 0
+    forceCompileOnly = 0
+    resolveCoincidentTopology = 0
+    resolveCoincidentTopologyPolygonOffsetFaces = 1
+    resolveCoincidentTopologyZShift = 0.01
+    renderTime = 0
+    status = "Some Input(s) are Valid and Used"
+    addClippingPlaneConnCounter = 1
+  }
+}
+module vtkActor {
+  internal  {
+    frame = "677 381 168 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "829 355 276 429"
+        sizeHint = "276 429"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkActor
+    position = "0 0 0 "
+    origin = "0 0 0 "
+    orientation = "0 -0 0 "
+    visibility = 1
+    pickable = 1
+    dragable = 1
+    useBounds = TRUE
+    estimatedRenderTime = 0.0001220703125
+    renderTimeMultiplier = 0.208760350883547
+    status = "Some Input(s) are Valid and Used"
+    addConsumerConnCounter = 1
+  }
+}
+connections  {
+  SoExaminerViewer.children = SoVTK.self
+  SoVTK.inputVTKProp = vtkActor.outputActor
+  vtkPolyDataMapper.inputInput_vtkPolyData = vtkPolyDataReader.outputPolyDataReader
+  vtkActor.inputMapper_vtkMapper = vtkPolyDataMapper.outputPolyDataMapper
+}
+networkModel = ""

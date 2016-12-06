@@ -1,0 +1,22 @@
+all: release debug
+
+#/home/samuel/Development/medVis/project/MeVisLab package/MedVis/MeshCompare/Sources/ML/_MLMeshCompare/Makefile._MLMeshCompare.Release: /home/samuel/Development/medVis/project/MeVisLab package/MedVis/MeshCompare/Sources/ML/_MLMeshCompare/_MLMeshCompare.pro
+#	cd /home/samuel/Development/medVis/project/MeVisLab package/MedVis/MeshCompare/Sources/ML/_MLMeshCompare && /home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVis/ThirdParty/Python/Release/bin/python /home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVis/BuildSystem/BuildTools/Scripts/createProject.py _MLMeshCompare
+#/home/samuel/Development/medVis/project/MeVisLab package/MedVis/MeshCompare/Sources/ML/_MLMeshCompare/Makefile._MLMeshCompare.Debug: /home/samuel/Development/medVis/project/MeVisLab package/MedVis/MeshCompare/Sources/ML/_MLMeshCompare/_MLMeshCompare.pro
+#	cd /home/samuel/Development/medVis/project/MeVisLab package/MedVis/MeshCompare/Sources/ML/_MLMeshCompare && /home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVis/ThirdParty/Python/Release/bin/python /home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVis/BuildSystem/BuildTools/Scripts/createProject.py _MLMeshCompare
+
+release: #/home/samuel/Development/medVis/project/MeVisLab package/MedVis/MeshCompare/Sources/ML/_MLMeshCompare/Makefile._MLMeshCompare.Release
+	cd /home/samuel/Development/medVis/project/MeVisLab package/MedVis/MeshCompare/Sources/ML/_MLMeshCompare && $(MAKE) -k -j 4 -f Makefile._MLMeshCompare.Release
+debug: #/home/samuel/Development/medVis/project/MeVisLab package/MedVis/MeshCompare/Sources/ML/_MLMeshCompare/Makefile._MLMeshCompare.Debug
+	cd /home/samuel/Development/medVis/project/MeVisLab package/MedVis/MeshCompare/Sources/ML/_MLMeshCompare && $(MAKE) -k -j 4 -f Makefile._MLMeshCompare.Debug
+cleanall: clean
+cleanrelease:
+	cd /home/samuel/Development/medVis/project/MeVisLab package/MedVis/MeshCompare/Sources/ML/_MLMeshCompare && if test -e Makefile._MLMeshCompare.Release; then $(MAKE) -k -f Makefile._MLMeshCompare.Release clean; fi
+cleandebug:
+	cd /home/samuel/Development/medVis/project/MeVisLab package/MedVis/MeshCompare/Sources/ML/_MLMeshCompare && if test -e Makefile._MLMeshCompare.Debug; then $(MAKE) -k -f Makefile._MLMeshCompare.Debug clean; fi
+
+clean: cleanrelease cleandebug
+
+rebuilddebug: cleandebug debug
+
+rebuildrelease: cleanrelease release

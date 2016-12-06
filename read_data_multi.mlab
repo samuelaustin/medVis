@@ -1,0 +1,632 @@
+// MDL v1 utf8
+network  {
+  watchlist = ""
+}
+module vtkPolyDataReader {
+  internal  {
+    frame = "1185 709 144 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "410 665 318 371"
+        sizeHint = "239 371"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkPolyDataReader2
+    readAllScalars = 1
+    readAllVectors = 0
+    readAllNormals = 0
+    readAllTensors = 0
+    readAllColorScalars = 0
+    readAllTCoords = 0
+    readAllFields = 0
+    status = "Output is valid"
+    unresolvedFileName = $(NETWORK)/pat11.vtk
+  }
+}
+module vtkPolyDataMapper {
+  internal  {
+    frame = "1257 621 144 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1129 86 610 909"
+        sizeHint = "591 909"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkPolyDataMapper2
+    piece = 0
+    numberOfPieces = 1
+    numberOfSubPieces = 1
+    ghostLevel = 0
+    scalarVisibility = 1
+    static = 0
+    colorMode = 1
+    interpolateScalarsBeforeMapping = 0
+    useLookupTableScalarRange = 0
+    immediateModeRendering = 0
+    scalarMode = 2
+    scalarMaterialMode = 0
+    scalarRange = "0 7 "
+    globalImmediateModeRendering = 0
+    forceCompileOnly = 0
+    resolveCoincidentTopology = 0
+    resolveCoincidentTopologyPolygonOffsetFaces = 1
+    resolveCoincidentTopologyZShift = 0.01
+    renderTime = 0
+    status = "Some Input(s) are Valid and Used"
+    addClippingPlaneConnCounter = 1
+  }
+}
+module vtkActor {
+  internal  {
+    frame = "1181 533 168 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "829 355 276 429"
+        sizeHint = "276 429"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkActor2
+    position = "0 0 0 "
+    origin = "0 0 0 "
+    orientation = "0 -0 0 "
+    visibility = 1
+    pickable = 1
+    dragable = 1
+    useBounds = TRUE
+    estimatedRenderTime = 5.10215759277344e-05
+    renderTimeMultiplier = 0.989664099296457
+    status = "Some Input(s) are Valid and Used"
+    addConsumerConnCounter = 1
+  }
+}
+module vtkProperty {
+  internal  {
+    frame = "1141 621 104 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "471 185 448 854"
+        sizeHint = "448 854"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkProperty3
+    lighting = TRUE
+    edgeVisibility = 0
+    lineStipplePattern = 65535
+    backfaceCulling = 0
+    frontfaceCulling = 0
+    shading = 0
+    interpolation = 2
+    representation = 2
+    ambient = 0.1
+    diffuse = 0.5
+    specular = 0
+    specularPower = 0
+    opacity = 0.3
+    lineWidth = 1
+    lineStippleRepeatFactor = 1
+    pointSize = 1
+    ambientColor = "1 255 1 "
+    diffuseColor = "1 255 1 "
+    specularColor = "1 255 1 "
+    edgeColor = "0 0 0 "
+    color = "1 255 1 "
+    status = "Output is valid"
+  }
+}
+module vtkProperty {
+  internal  {
+    frame = "853 573 104 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "471 185 448 854"
+        sizeHint = "448 854"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkProperty2
+    lighting = TRUE
+    edgeVisibility = 0
+    lineStipplePattern = 65535
+    backfaceCulling = 0
+    frontfaceCulling = 0
+    shading = 0
+    interpolation = 2
+    representation = 2
+    ambient = 0.1
+    diffuse = 0.5
+    specular = 0
+    specularPower = 0
+    opacity = 0.3
+    lineWidth = 1
+    lineStippleRepeatFactor = 1
+    pointSize = 1
+    ambientColor = "255 1 1 "
+    diffuseColor = "255 1 1 "
+    specularColor = "255 1 1 "
+    edgeColor = "0 0 0 "
+    color = "255 1 1 "
+    status = "Output is valid"
+  }
+}
+module vtkProperty {
+  internal  {
+    frame = "573 573 104 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "471 185 448 854"
+        sizeHint = "448 854"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkProperty1
+    lighting = TRUE
+    edgeVisibility = 0
+    lineStipplePattern = 65535
+    backfaceCulling = 0
+    frontfaceCulling = 0
+    shading = 0
+    interpolation = 2
+    representation = 2
+    ambient = 0.1
+    diffuse = 0.5
+    specular = 0
+    specularPower = 0
+    opacity = 1
+    lineWidth = 1
+    lineStippleRepeatFactor = 1
+    pointSize = 1
+    ambientColor = "1 1 1 "
+    diffuseColor = "1 1 1 "
+    specularColor = "1 1 1 "
+    edgeColor = "0 0 0 "
+    color = "1 1 1 "
+    status = "Output is valid"
+  }
+}
+module vtkCamera {
+  internal  {
+    frame = "489 445 96 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "349 159 437 803"
+        sizeHint = "437 803"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkCamera
+    eyeAngle = 2
+    focalDisk = 1
+    useOffAxisProjection = 0
+    eyeSeparation = 0.06
+    leftEye = 1
+    screenBottomLeft = "-0.5 -0.5 -0.5 "
+    screenBottomRight = "0.5 -0.5 -0.5 "
+    screenTopRight = "0.5 0.5 -0.5 "
+    position = "195.55862 109.96953 617.38481 "
+    focalPoint = "-0.050274712 -80.512609 -280.39792 "
+    viewUp = "-0.083190978 0.97835937 -0.1894524 "
+    distance = 938.38164386668
+    roll = -2.34705153021348
+    parallelProjection = 0
+    useHorizontalViewAngle = 0
+    viewAngle = 30
+    parallelScale = 200.719868601119
+    clippingRange = "519.48 886.95907 "
+    thickness = 367.479067515587
+    viewShear = "0 0 1 "
+    eyePosition = "0 0 0 "
+    eyeTransformMatrix = "1 0 0 0
+0 1 0 0
+0 0 1 0
+0 0 0 1"
+    modelTransformMatrix = "1 0 0 0
+0 1 0 0
+0 0 1 0
+0 0 0 1"
+    status = "Output is Valid, but All Input(s) are not of Correct Type or Open"
+  }
+}
+module vtkLight {
+  internal  {
+    frame = "1233 445 80 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "541 291 418 629"
+        sizeHint = "418 629"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkLight
+    intensity = 1
+    switch = 1
+    positional = 0
+    coneAngle = 30
+    lightType = 3
+    exponent = 1
+    ambientColor = "1 1 1 "
+    diffuseColor = "1 1 1 "
+    specularColor = "1 1 1 "
+    position = "0 0 1 "
+    focalPoint = "0 0 0 "
+    attenuationValues = "1 0 0 "
+    transformMatrix = "1 0 0 0
+0 1 0 0
+0 0 1 0
+0 0 0 1"
+    directionAngle = ""
+    status = "Output is valid"
+  }
+}
+module vtkRenderer {
+  internal  {
+    frame = "765 349 296 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1265 307 556 543"
+        sizeHint = "304 331"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkRenderer
+    twoSidedLighting = 1
+    lightFollowCamera = 1
+    automaticLightCreation = 1
+    erase = 1
+    draw = 1
+    allocatedRenderTime = 10000
+    backingStore = 0
+    interactive = 1
+    layer = 0
+    preserveDepthBuffer = 0
+    useDepthPeeling = 0
+    maximumNumberOfPeels = 4
+    texturedBackground = FALSE
+    nearClippingPlaneTolerance = 0.001
+    occlusionRatio = 0
+    ambient = "1 1 1 "
+    gradientBackground = FALSE
+    aspect = "1.07393 1 "
+    pixelAspect = "1 1 "
+    background = "0 0 0 "
+    background2 = "0.2 0.2 0.2 "
+    displayPoint = "377 302 0.90102324 "
+    viewPoint = "0.36842105 0.17509728 0.90102324 "
+    viewport = "0 0 1 1 "
+    worldPoint = "68.815128 -117.80938 -324.95375 1 "
+    status = "Some Input(s) are Valid and Used"
+    addActorConnCounter = 3
+    addVolumeConnCounter = 1
+    addLightConnCounter = 1
+    addCullerConnCounter = 1
+    addViewPropConnCounter = 1
+    addActor2DConnCounter = 1
+    vtkRenderer = ""
+  }
+}
+module SoExaminerViewer {
+  internal  {
+    frame = "833 165 144 56"
+    moduleGroupName = ""
+    windows  {
+      window _viewer {
+        geometry = "59 187 400 400"
+        sizeHint = "400 400"
+        wasOpen = yes
+      }
+    }
+  }
+  fields  {
+    instanceName = SoExaminerViewer3
+    renderCaching = AUTO
+    boundingBoxCaching = AUTO
+    renderCulling = AUTO
+    pickCulling = AUTO
+    border = FALSE
+    background = "0 0 0"
+    transparency = BLEND
+    antialiasing = FALSE
+    antialiasingNumPasses = 1
+    hiResRendering = TRUE
+    useSampleBuffers = FALSE
+    numSamples = 8
+    grabKeyFocus = TRUE
+    enableKeyCommands = TRUE
+    snapshotFormat = SNAPSHOT_RGB
+    outputAviFile = ""
+    autoRedrawWhenRecording = TRUE
+    frameRate = 7
+    frameRateAvi = 15
+    outputSnapshotFile = none
+    outputSnapshotFileWritten = none
+    autoIncreaseFile = TRUE
+    showSnapshotWithShell = FALSE
+    snapCount = 0
+    inputDevicesList = ""
+    headlight = TRUE
+    decoration = TRUE
+    popupMenuEnabled = FALSE
+    viewing = TRUE
+    autoClipping = TRUE
+    drawStyle = VIEW_AS_IS
+    interactiveDrawStyle = VIEW_LOW_COMPLEXITY
+    viewAllFlag = FALSE
+    initialCameraOrientation = CAMERA_KEEP_AS_IS
+    applyCameraOrientation = CAMERA_KEEP_AS_IS
+    cameraType = CAMERA_PERSPECTIVE
+    autoApplyUserSettingOrientation = FALSE
+    userSettingOrientation = "0 0 1 0"
+    automaticViewAll = FALSE
+    storeCurrentState = TRUE
+    saveCamera = TRUE
+    cursor = TRUE
+    isCameraStored = TRUE
+    perspective = TRUE
+    stereoViewing = FALSE
+    stereoOffset = 3
+    height = 0.78539819
+    position = "-195.534896850586 -38.382266998291 38.9258117675781"
+    orientation = "0.572290360927582 -0.508565187454224 -0.643308043479919 1.72129940986633"
+    nearDistance = 144.95932
+    farDistance = 278.74591
+    focalDistance = 209.03702
+    forceRedrawOnInteraction = FALSE
+    button1events = TO_VIEWER
+    button2events = TO_VIEWER
+    button3events = TO_VIEWER
+    keyEvents = TO_VIEWER
+    animationEnabled = FALSE
+    feedback = FALSE
+    feedbackSize = 32
+    mouseInteraction = ""
+    rotationAxis = "0 1 0"
+    rotationAngle = 360
+    rotationSteps = 80
+    recordRotation = TRUE
+  }
+}
+module SoVTK {
+  internal  {
+    frame = "865 253 80 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "842 547 236 54"
+        sizeHint = "236 54"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SoVTK2
+    status = "Valid vtkRenderer connected"
+    renderMode = RENDER_DIRECT
+  }
+}
+module vtkActor {
+  internal  {
+    frame = "893 485 168 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "829 355 276 429"
+        sizeHint = "276 429"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkActor1
+    position = "0 0 0 "
+    origin = "0 0 0 "
+    orientation = "0 -0 0 "
+    visibility = 1
+    pickable = 1
+    dragable = 1
+    useBounds = TRUE
+    estimatedRenderTime = 4.79221343994141e-05
+    renderTimeMultiplier = 0.893048618457473
+    status = "Some Input(s) are Valid and Used"
+    addConsumerConnCounter = 1
+  }
+}
+module vtkPolyDataMapper {
+  internal  {
+    frame = "969 573 144 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1129 86 610 909"
+        sizeHint = "591 909"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkPolyDataMapper1
+    piece = 0
+    numberOfPieces = 1
+    numberOfSubPieces = 1
+    ghostLevel = 0
+    scalarVisibility = 1
+    static = 0
+    colorMode = 1
+    interpolateScalarsBeforeMapping = 0
+    useLookupTableScalarRange = 0
+    immediateModeRendering = 0
+    scalarMode = 2
+    scalarMaterialMode = 0
+    scalarRange = "0 7 "
+    globalImmediateModeRendering = 0
+    forceCompileOnly = 0
+    resolveCoincidentTopology = 0
+    resolveCoincidentTopologyPolygonOffsetFaces = 1
+    resolveCoincidentTopologyZShift = 0.01
+    renderTime = 0
+    status = "Some Input(s) are Valid and Used"
+    addClippingPlaneConnCounter = 1
+  }
+}
+module vtkPolyDataReader {
+  internal  {
+    frame = "897 661 144 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "410 665 318 371"
+        sizeHint = "239 371"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkPolyDataReader1
+    readAllScalars = 1
+    readAllVectors = 0
+    readAllNormals = 0
+    readAllTensors = 0
+    readAllColorScalars = 0
+    readAllTCoords = 0
+    readAllFields = 0
+    status = "Output is valid"
+    unresolvedFileName = $(NETWORK)/pat1.vtk
+  }
+}
+module vtkPolyDataReader {
+  internal  {
+    frame = "621 653 136 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "410 665 295 356"
+        sizeHint = "217 356"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkPolyDataReader
+    readAllScalars = 1
+    readAllVectors = 0
+    readAllNormals = 0
+    readAllTensors = 0
+    readAllColorScalars = 0
+    readAllTCoords = 0
+    readAllFields = 0
+    status = "Output is valid"
+    unresolvedFileName = $(NETWORK)/model.vtk
+  }
+}
+module vtkPolyDataMapper {
+  internal  {
+    frame = "693 573 136 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1129 86 610 909"
+        sizeHint = "591 909"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkPolyDataMapper
+    piece = 0
+    numberOfPieces = 1
+    numberOfSubPieces = 1
+    ghostLevel = 0
+    scalarVisibility = 1
+    static = 0
+    colorMode = 1
+    interpolateScalarsBeforeMapping = 0
+    useLookupTableScalarRange = 0
+    immediateModeRendering = 0
+    scalarMode = 2
+    scalarMaterialMode = 0
+    scalarRange = "0 7 "
+    globalImmediateModeRendering = 0
+    forceCompileOnly = 0
+    resolveCoincidentTopology = 0
+    resolveCoincidentTopologyPolygonOffsetFaces = 1
+    resolveCoincidentTopologyZShift = 0.01
+    renderTime = 0
+    status = "Some Input(s) are Valid and Used"
+    addClippingPlaneConnCounter = 1
+  }
+}
+module vtkActor {
+  internal  {
+    frame = "621 485 168 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "829 355 276 429"
+        sizeHint = "276 429"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = vtkActor
+    position = "0 0 0 "
+    origin = "0 0 0 "
+    orientation = "0 -0 0 "
+    visibility = 1
+    pickable = 1
+    dragable = 1
+    useBounds = TRUE
+    estimatedRenderTime = 0.00105595588684082
+    renderTimeMultiplier = 0.246329726748443
+    status = "Some Input(s) are Valid and Used"
+    addConsumerConnCounter = 1
+  }
+}
+connections  {
+  vtkPolyDataMapper2.inputInput_vtkPolyData = vtkPolyDataReader2.outputPolyDataReader
+  vtkActor2.inputProperty_vtkProperty = vtkProperty3.outputProperty
+  vtkActor2.inputMapper_vtkMapper = vtkPolyDataMapper2.outputPolyDataMapper
+  vtkRenderer.inputActiveCamera_vtkCamera = vtkCamera.outputCamera
+  vtkRenderer.inputvtkPropActor0 = vtkActor.outputActor
+  vtkRenderer.inputvtkPropActor1 = vtkActor1.outputActor
+  vtkRenderer.inputvtkPropActor2 = vtkActor2.outputActor
+  vtkRenderer.inputvtkLightLight0 = vtkLight.outputLight
+  SoExaminerViewer3.children = SoVTK2.self
+  SoVTK2.inputVTKProp = vtkRenderer.outputRenderer
+  vtkActor1.inputProperty_vtkProperty = vtkProperty2.outputProperty
+  vtkActor1.inputMapper_vtkMapper = vtkPolyDataMapper1.outputPolyDataMapper
+  vtkPolyDataMapper1.inputInput_vtkPolyData = vtkPolyDataReader1.outputPolyDataReader
+  vtkPolyDataMapper.inputInput_vtkPolyData = vtkPolyDataReader.outputPolyDataReader
+  vtkActor.inputProperty_vtkProperty = vtkProperty1.outputProperty
+  vtkActor.inputMapper_vtkMapper = vtkPolyDataMapper.outputPolyDataMapper
+}
+networkModel = ""

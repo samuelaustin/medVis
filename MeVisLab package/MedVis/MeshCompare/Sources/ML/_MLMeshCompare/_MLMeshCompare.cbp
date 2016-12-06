@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf8'?>
+<CodeBlocks_project_file>
+  <FileVersion major="1" minor="6" />
+  <Project>
+    <Option title="_MLMeshCompare" />
+    <Option makefile="/home/samuel/Development/medVis/project/MeVisLab package/MedVis/MeshCompare/Sources/ML/_MLMeshCompare/Makefile._MLMeshCompare" />
+    <Option makefile_is_custom="1" />
+    <Option compiler="gcc" />
+    <Build>
+      <Target title="all">
+        <Option extension_auto="1" output="/home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVisLab/IDE/bin/MeVisLab" prefix_auto="1" />
+        <Option type="0" />
+        <Option compiler="gcc" />
+        <MakeCommands>
+          <Build command="$make -k -f $makefile $target" />
+          <CompileFile command="$make -k -f $makefile $file" />
+          <Clean command="$make -k -f $makefile clean$target" />
+          <DistClean command="$make -k -f $makefile distclean$target" />
+        </MakeCommands>
+      </Target><Target title="release">
+        <Option extension_auto="1" output="/home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVisLab/IDE/bin/MeVisLab" prefix_auto="1" />
+        <Option type="0" />
+        <Option compiler="gcc" />
+        <MakeCommands>
+          <Build command="$make -k -f $makefile -j 4 $target" />
+          <CompileFile command="$make -k -f $makefile $file" />
+          <Clean command="$make -k -f $makefile clean$target" />
+          <DistClean command="$make -k -f $makefile distclean$target" />
+        </MakeCommands>
+      </Target><Target title="debug">
+        <Option extension_auto="1" output="/home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVisLab/IDE/bin/MeVisLab_d" prefix_auto="1" />
+        <Option type="0" />
+        <Option compiler="gcc" />
+        <Compiler>
+          <Add option="-g" />
+        </Compiler><MakeCommands>
+          <Build command="$make -k -f $makefile -j 4 $target" />
+          <CompileFile command="$make -k -f $makefile $file" />
+          <Clean command="$make -k -f $makefile clean$target" />
+          <DistClean command="$make -k -f $makefile distclean$target" />
+        </MakeCommands>
+      </Target>
+    </Build><Unit filename="_MLMeshCompareInit.h" />
+    <Unit filename="_MLMeshCompareSystem.h" />
+    <Unit filename="mlMeshDeviation.h" />
+    <Unit filename="_MLMeshCompareInit.cpp" />
+    <Unit filename="mlMeshDeviation.cpp" />
+    <Unit filename="message(__CBP_MARKER_HEADERS__" />
+    <Unit filename="_MLMeshCompareInit.h" />
+    <Unit filename="_MLMeshCompareSystem.h" />
+    <Unit filename="mlMeshDeviation.h" />
+    <Unit filename="__CBP_MARKER_HEADERS__)" />
+    <Unit filename="_MLMeshCompare.pro">
+      <Option target="All" />
+    </Unit><Extensions>
+      <code_completion>
+        <search_path add="/home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVis/Foundation/Sources/ML/include/deprecated" />
+        <search_path add="/home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVis/Foundation/Sources/ML/include" />
+        <search_path add="/home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVis/Foundation/Sources/MLLinearAlgebra/deprecated" />
+        <search_path add="/home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVis/Foundation/Sources/MLLinearAlgebra" />
+        <search_path add="/home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVis/Foundation/Sources/MLProfilingManager/Include" />
+        <search_path add="/home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVis/Foundation/Sources/MLUtilities" />
+        <search_path add="/home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVis/Foundation/Sources/MLMemoryManager/Include" />
+        <search_path add="/home/samuel/MeVisLab2.8.1GCC-4.8.4/Packages/MeVis/Foundation/Sources/ThirdPartyWarnings" />
+      </code_completion><debugger />
+    </Extensions>
+  </Project>
+</CodeBlocks_project_file>
