@@ -51,7 +51,6 @@ def PointToPointDistance(referencePolyData, polyData):
     return mean
 
 
-
 def MakeLUT(tableSize):
     '''
     Make a lookup table from a set of named colors.
@@ -77,8 +76,7 @@ def MakeLUT(tableSize):
     #lut.SetTableValue(9,nc.GetColor4d("Peacock"))
  
     return lut
-
-
+    
 
 referenceData = GetData("../model.vtk")
 patientData = GetData("../pat1.vtk")
@@ -87,10 +85,17 @@ print("Calculating point-to-point distance.")
 dist = PointToPointDistance(referenceData, patientData)
 print("Mean distance to reference: " + str(dist))
 
+
 referenceActor = GetActor(referenceData)
+#referenceActor.GetProperty().SetOpacity(0.5)
+referenceActor.GetProperty().SetRepresentationToWireframe()
+
 patientActor = GetActor(patientData)
+patientActor.GetProperty().SetOpacity(0.5)
 
 renderer = vtk.vtkRenderer()
+#renderer.SetBackground(1,1,1);
+
 renderWindow = vtk.vtkRenderWindow()
 renderWindow.AddRenderer(renderer)
 renderWindowInteractor = vtk.vtkRenderWindowInteractor()
