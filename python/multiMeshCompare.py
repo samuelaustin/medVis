@@ -6,6 +6,50 @@ from vtk import *
 from vtk.util import numpy_support
 from vtk.util.numpy_support import vtk_to_numpy
 
+g_minimumDistance = 0
+g_maximumDistance = 0
+g_visualDistance = 0
+g_patientActors = []
+distances = []
+
+
+class ClickInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
+    def __init__(self, parent=None):
+            self.AddObserver("KeyPressEvent",self.onKeyPressEvent)
+
+    def UpdatePatientOpacities(self):
+        global g_patientActors
+        global g_minimumDistance
+        global g_maximumDistance
+        global g_visualDistance
+        global renderWindow
+
+        diff = g_maximumDistance - g_minimumDistance
+        for i in range(0,len(distances)):
+            dist = abs(g_visualDistance - distances[i])
+            relative = dist / diff
+            opacity = max(0, (1-(20*relative)))
+            g_patientActors[i].GetProperty().SetOpacity(opacity)
+        renderWindow.Render()
+
+
+    def onKeyPressEvent(self, renderer, event):        
+        key = self.GetInteractor().GetKeySym()
+
+        global g_minimumDistance
+        global g_maximumDistance
+        global g_visualDistance
+
+        diff = g_maximumDistance - g_minimumDistance
+        stepSize = diff / 200
+
+        if(key == "Right"):
+            g_visualDistance = min([g_maximumDistance, g_visualDistance+stepSize])
+        elif(key == "Left"):
+            g_visualDistance = max([g_minimumDistance, g_visualDistance-stepSize])
+        print g_visualDistance
+        self.UpdatePatientOpacities()
+
 def GetData(fileName):
     reader = vtkPolyDataReader()
     reader.SetFileName(fileName)
@@ -33,14 +77,10 @@ def GetActor(data):
 
     return actor
 
-def PointToPointDistance(referencePolyData, polyData):
-    referencePoints = vtk_to_numpy(referencePolyData.GetPoints().GetData())
+def PointToPointDistance(referenceTree, polyData):
+    
     dataPoints = vtk_to_numpy(polyData.GetPoints().GetData())
-
-    referenceTree = spatial.cKDTree(referencePoints, leafsize=10)
-
     numDataPoints = polyData.GetNumberOfPoints()
-    print("Data points: " + str(numDataPoints))
 
     mean = 0
     for point in dataPoints:
@@ -76,22 +116,48 @@ def MakeLUT(tableSize):
     #lut.SetTableValue(9,nc.GetColor4d("Peacock"))
  
     return lut
-    
+
+def ImportPatientData():
+    patientData = []
+    patientData.append(GetData("../pat1.vtk"))
+    patientData.append(GetData("../pat3.vtk"))
+    patientData.append(GetData("../pat4.vtk"))
+    patientData.append(GetData("../pat5.vtk"))
+    patientData.append(GetData("../pat7.vtk"))
+    patientData.append(GetData("../pat8.vtk"))
+    patientData.append(GetData("../pat9.vtk"))
+    patientData.append(GetData("../pat10.vtk"))
+    patientData.append(GetData("../pat11.vtk"))
+    return patientData
+
+
+def CreateActors(patientData):
+    global g_patientActors
+    for i in range(0, len(patientData)):
+        g_patientActors.append(GetActor(patientData[i]))
+
 
 referenceData = GetData("../model.vtk")
-patientData = GetData("../pat1.vtk")
+patientData = ImportPatientData()
+
+referencePoints = vtk_to_numpy(referenceData.GetPoints().GetData())
+referenceTree = spatial.cKDTree(referencePoints, leafsize=10)
 
 print("Calculating point-to-point distance.")
-dist = PointToPointDistance(referenceData, patientData)
-print("Mean distance to reference: " + str(dist))
 
+for i in range(0, len(patientData)):
+    distances.append(PointToPointDistance(referenceTree, patientData[i]))
+print("Distances:")
+print(distances)
+
+g_minimumDistance = min(distances)
+g_maximumDistance = max(distances)
+g_visualDistance = g_minimumDistance
 
 referenceActor = GetActor(referenceData)
-#referenceActor.GetProperty().SetOpacity(0.5)
 referenceActor.GetProperty().SetRepresentationToWireframe()
 
-patientActor = GetActor(patientData)
-patientActor.GetProperty().SetOpacity(0.5)
+CreateActors(patientData)
 
 renderer = vtk.vtkRenderer()
 #renderer.SetBackground(1,1,1);
@@ -100,9 +166,15 @@ renderWindow = vtk.vtkRenderWindow()
 renderWindow.AddRenderer(renderer)
 renderWindowInteractor = vtk.vtkRenderWindowInteractor()
 renderWindowInteractor.SetRenderWindow(renderWindow)
+
+style = ClickInteractorStyle()
+style.UpdatePatientOpacities()
+renderWindowInteractor.SetInteractorStyle(style)
  
 renderer.AddActor(referenceActor)
-renderer.AddActor(patientActor)
- 
+for actor in g_patientActors:
+    actor.GetProperty().SetOpacity(0.2)
+    renderer.AddActor(actor)
+
 renderWindow.Render()
 renderWindowInteractor.Start()
