@@ -1,4 +1,5 @@
 import sys
+sys.path.insert(0, '/opt/VTK-7.0.0/lib/python3.5/site-packages')
 import numpy as np
 import scipy.spatial as spatial
 from scipy.spatial import distance
@@ -43,11 +44,11 @@ class ClickInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
         diff = g_maximumDistance - g_minimumDistance
         stepSize = diff / 200
 
-        if(key == "Right"):
+        if(key == "Right" or key == "Up"):
             g_visualDistance = min([g_maximumDistance, g_visualDistance+stepSize])
-        elif(key == "Left"):
+        elif(key == "Left" or key == "Down"):
             g_visualDistance = max([g_minimumDistance, g_visualDistance-stepSize])
-        print g_visualDistance
+        print(g_visualDistance)
         self.UpdatePatientOpacities()
 
 def GetData(fileName):
@@ -59,7 +60,7 @@ def GetData(fileName):
 
     return reader.GetOutput()
 
-def GetActor(data):
+def GetReferenceActor(data):
     numOrgans = 8
     lut = MakeLUT(numOrgans)
 
@@ -77,26 +78,37 @@ def GetActor(data):
 
     return actor
 
+def GetActor(data):
+    mapper = vtk.vtkPolyDataMapper()
+    mapper.SetInputData(data)
+    actor = vtk.vtkActor()
+    actor.SetMapper(mapper)
+    actor.GetProperty().SetPointSize(20)
+
+    return actor
+
 def PointToPointDistance(referenceTree, polyData):
     
     dataPoints = vtk_to_numpy(polyData.GetPoints().GetData())
     numDataPoints = polyData.GetNumberOfPoints()
 
+    colors = vtk.vtkUnsignedCharArray()
+    colors.SetNumberOfComponents(3)
+    colors.SetName("colors")
+
     mean = 0
     for point in dataPoints:
         (dist, index) = referenceTree.query(point, k=1, distance_upper_bound=100)
         mean = mean + dist
+        redness = min(255, 10*int(dist))
+        otherColors = 255 - redness
+        colors.InsertNextTuple3(255,otherColors,otherColors)
 
     mean = mean / numDataPoints
-    return mean
+    return (mean, colors)
 
 
 def MakeLUT(tableSize):
-    '''
-    Make a lookup table from a set of named colors.
-    :param: tableSize - The table size
-    :return: The lookup table.
-    '''
     nc = vtk.vtkNamedColors()
  
     lut = vtk.vtkLookupTable()
@@ -112,8 +124,6 @@ def MakeLUT(tableSize):
     lut.SetTableValue(5,nc.GetColor4d("Flesh"))
     lut.SetTableValue(6,nc.GetColor4d("Raspberry"))
     lut.SetTableValue(7,nc.GetColor4d("Salmon"))
-    #lut.SetTableValue(8,nc.GetColor4d("Black"))
-    #lut.SetTableValue(9,nc.GetColor4d("Peacock"))
  
     return lut
 
@@ -137,6 +147,8 @@ def CreateActors(patientData):
         g_patientActors.append(GetActor(patientData[i]))
 
 
+print(vtk.vtkVersion.GetVTKSourceVersion())
+
 referenceData = GetData("../model.vtk")
 patientData = ImportPatientData()
 
@@ -145,8 +157,11 @@ referenceTree = spatial.cKDTree(referencePoints, leafsize=10)
 
 print("Calculating point-to-point distance.")
 
+patientColors = []
 for i in range(0, len(patientData)):
-    distances.append(PointToPointDistance(referenceTree, patientData[i]))
+    (dist, colors) = PointToPointDistance(referenceTree, patientData[i])
+    distances.append(dist)
+    patientData[i].GetPointData().SetScalars(colors)
 print("Distances:")
 print(distances)
 
@@ -154,7 +169,7 @@ g_minimumDistance = min(distances)
 g_maximumDistance = max(distances)
 g_visualDistance = g_minimumDistance
 
-referenceActor = GetActor(referenceData)
+referenceActor = GetReferenceActor(referenceData)
 referenceActor.GetProperty().SetRepresentationToWireframe()
 
 CreateActors(patientData)
