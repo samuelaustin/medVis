@@ -10,11 +10,17 @@ from vtk.util.numpy_support import vtk_to_numpy
 g_minimumDistance = 0
 g_maximumDistance = 0
 g_visualDistance = 0
+g_referenceActor = 0
 g_patientActors = []
+g_lineActors = []
 distances = []
+g_linePolygons = []
 
 
 class ClickInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
+    
+    visibleIndex = 0
+
     def __init__(self, parent=None):
             self.AddObserver("KeyPressEvent",self.onKeyPressEvent)
 
@@ -33,23 +39,88 @@ class ClickInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
             g_patientActors[i].GetProperty().SetOpacity(opacity)
         renderWindow.Render()
 
+    def MakeVisible(self, index):
+        global g_patientActors
+        global g_lineActors
 
-    def onKeyPressEvent(self, renderer, event):        
+        for i in range(0,len(g_patientActors)):
+            g_patientActors[i].GetProperty().SetOpacity(0)
+
+        for i in range(0,len(g_lineActors)):
+            g_lineActors[i].GetProperty().SetOpacity(0)
+
+        g_patientActors[index].GetProperty().SetOpacity(0.5)
+        g_lineActors[index].GetProperty().SetOpacity(1)
+        renderWindow.Render()
+
+    def TogglePatientVisibility(self, index):
+        global g_patientActors
+        global renderWindow
+
+        opacity = g_patientActors[index].GetProperty().GetOpacity()
+        if opacity > 0:
+            g_patientActors[index].GetProperty().SetOpacity(0)
+        else:
+            g_patientActors[index].GetProperty().SetOpacity(0.5)
+
+        renderWindow.Render()
+
+
+    def onKeyPressEvent(self, renderer, event):    
         key = self.GetInteractor().GetKeySym()
 
         global g_minimumDistance
         global g_maximumDistance
         global g_visualDistance
+        global g_patientActors
+        global g_referenceActor
+        global g_lineActors
+        global renderWindow
 
         diff = g_maximumDistance - g_minimumDistance
         stepSize = diff / 200
 
-        if(key == "Right" or key == "Up"):
+        if(key == "Right"):
             g_visualDistance = min([g_maximumDistance, g_visualDistance+stepSize])
-        elif(key == "Left" or key == "Down"):
+            print(g_visualDistance)
+            self.UpdatePatientOpacities()
+        elif(key == "Left"):
             g_visualDistance = max([g_minimumDistance, g_visualDistance-stepSize])
-        print(g_visualDistance)
-        self.UpdatePatientOpacities()
+            print(g_visualDistance)
+            self.UpdatePatientOpacities()
+        elif(key == "Up"):
+            self.visibleIndex = min(self.visibleIndex+1, len(g_patientActors)-1)
+            self.MakeVisible(self.visibleIndex)
+        elif(key == "Down"):
+            self.visibleIndex = max(self.visibleIndex-1, 0)
+            self.MakeVisible(self.visibleIndex)
+        elif(key == "m"):
+            opacity = g_referenceActor.GetProperty().GetOpacity()
+            g_referenceActor.GetProperty().SetOpacity(1-opacity)
+            renderWindow.Render()
+        elif(key == "l"):
+            opacity = g_lineActors[self.visibleIndex].GetProperty().GetOpacity()
+            opacity = g_lineActors[self.visibleIndex].GetProperty().SetOpacity(1-opacity)
+            renderWindow.Render()
+        elif(key == "1"):
+            self.TogglePatientVisibility(0)
+        elif(key == "2"):
+            self.TogglePatientVisibility(1)
+        elif(key == "3"):
+            self.TogglePatientVisibility(2)
+        elif(key == "4"):
+            self.TogglePatientVisibility(3)
+        elif(key == "5"):
+            self.TogglePatientVisibility(4)
+        elif(key == "6"):
+            self.TogglePatientVisibility(5)
+        elif(key == "7"):
+            self.TogglePatientVisibility(6)
+        elif(key == "8"):
+            self.TogglePatientVisibility(7)
+        elif(key == "9"):
+            self.TogglePatientVisibility(8)
+     
 
 def GetData(fileName):
     reader = vtkPolyDataReader()
@@ -83,12 +154,13 @@ def GetActor(data):
     mapper.SetInputData(data)
     actor = vtk.vtkActor()
     actor.SetMapper(mapper)
-    actor.GetProperty().SetPointSize(20)
+    actor.GetProperty().SetPointSize(1)
 
     return actor
 
 def PointToPointDistance(referenceTree, polyData):
-    
+    global g_linePolygons
+
     dataPoints = vtk_to_numpy(polyData.GetPoints().GetData())
     numDataPoints = polyData.GetNumberOfPoints()
 
@@ -96,6 +168,9 @@ def PointToPointDistance(referenceTree, polyData):
     colors.SetNumberOfComponents(3)
     colors.SetName("colors")
 
+    points = vtk.vtkPoints()
+    #points.SetNumberOfPoints(2*numDataPoints)
+    
     mean = 0
     for point in dataPoints:
         (dist, index) = referenceTree.query(point, k=1, distance_upper_bound=100)
@@ -103,6 +178,23 @@ def PointToPointDistance(referenceTree, polyData):
         redness = min(255, 10*int(dist))
         otherColors = 255 - redness
         colors.InsertNextTuple3(255,otherColors,otherColors)
+
+        modelPoint = referenceTree.data[index]
+        points.InsertNextPoint(point[0], point[1], point[2])
+        points.InsertNextPoint(modelPoint[0], modelPoint[1], modelPoint[2])
+
+    lines = vtk.vtkCellArray()
+    for i in range(0, numDataPoints):
+        index = i*2
+        lines.InsertNextCell(2)
+        lines.InsertCellPoint(index)
+        lines.InsertCellPoint(index+1)
+
+    polygon = vtk.vtkPolyData()
+    polygon.SetPoints(points)
+    polygon.SetLines(lines)
+
+    g_linePolygons.append(polygon)
 
     mean = mean / numDataPoints
     return (mean, colors)
@@ -142,9 +234,11 @@ def ImportPatientData():
 
 
 def CreateActors(patientData):
-    global g_patientActors
+    actors = []
     for i in range(0, len(patientData)):
-        g_patientActors.append(GetActor(patientData[i]))
+        actors.append(GetActor(patientData[i]))
+
+    return actors
 
 
 print(vtk.vtkVersion.GetVTKSourceVersion())
@@ -169,10 +263,8 @@ g_minimumDistance = min(distances)
 g_maximumDistance = max(distances)
 g_visualDistance = g_minimumDistance
 
-referenceActor = GetReferenceActor(referenceData)
-referenceActor.GetProperty().SetRepresentationToWireframe()
-
-CreateActors(patientData)
+g_referenceActor = GetReferenceActor(referenceData)
+g_referenceActor.GetProperty().SetRepresentationToWireframe()
 
 renderer = vtk.vtkRenderer()
 #renderer.SetBackground(1,1,1);
@@ -182,14 +274,22 @@ renderWindow.AddRenderer(renderer)
 renderWindowInteractor = vtk.vtkRenderWindowInteractor()
 renderWindowInteractor.SetRenderWindow(renderWindow)
 
+g_patientActors = CreateActors(patientData)
+g_lineActors = CreateActors(g_linePolygons)
+
 style = ClickInteractorStyle()
 style.UpdatePatientOpacities()
 renderWindowInteractor.SetInteractorStyle(style)
- 
-renderer.AddActor(referenceActor)
+
+renderer.AddActor(g_referenceActor)
 for actor in g_patientActors:
     actor.GetProperty().SetOpacity(0.2)
     renderer.AddActor(actor)
 
+for actor in g_lineActors:
+    actor.GetProperty().SetOpacity(0.0)
+    renderer.AddActor(actor)
+
+renderer.ResetCamera()
 renderWindow.Render()
 renderWindowInteractor.Start()
