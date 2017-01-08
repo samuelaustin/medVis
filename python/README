@@ -1,0 +1,11 @@
+Visualization controls:
+
+Right and Left arrow keys - Cycle through the patient data based on the point-to-point mean distance of the patient data compared to the reference model data
+
+Up and Down arrow keys - Visualize the patient data one by one and show the corresponding point-to-point lines
+
+M-key - Toggle the visibility of the reference model data
+
+L-key - Toggle the visibility of the point-to-point lines
+
+Numbers 1-9 - Toggle the visility of the patient data
