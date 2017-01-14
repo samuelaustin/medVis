@@ -19,7 +19,8 @@ class MyInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
         global path
         global renderWindow
         global OrganActors
-        #global patientFile
+        global OrganRefActors
+        global OrganActorsMean
         global mark
         global count
 	
@@ -28,27 +29,32 @@ class MyInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
         if(key == "b"):
             renderer.RemoveAllViewProps()
             renderer.AddActor(Bladders[count])
+            renderer.AddActor(OrganRefActors[0])
             mark = "Bladder"
             renderWindow.Render() 
 			
         elif(key == "s"):
             renderer.RemoveAllViewProps()
             renderer.AddActor(SeminalVesicles[count])
+            renderer.AddActor(OrganRefActors[2])
             mark = "SV"
 
         elif(key == "r"):
             renderer.RemoveAllViewProps()
             renderer.AddActor(Rectums[count])
+            renderer.AddActor(OrganRefActors[3])
             mark = "Rectum"
 
         elif(key == "p"):
             renderer.RemoveAllViewProps()
             renderer.AddActor(Prostates[count])
+            renderer.AddActor(OrganRefActors[1])
             mark = "Prostate"
             
         elif(key =='m'):
             renderer.RemoveAllViewProps()
-            for i in OrganActors:
+			
+            for i in OrganActorsMean:
                 renderer.AddActor(i)
                 renderWindow.Render()
         elif(key == "Right"):
@@ -58,24 +64,28 @@ class MyInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
             if(mark == "Bladder"):
                 renderer.RemoveAllViewProps()
                 renderer.AddActor(Bladders[count])
+                renderer.AddActor(OrganRefActors[0])				
                 mark = "Bladder"
                 renderWindow.Render()				
 
             elif(mark == "SV"):
                 renderer.RemoveAllViewProps()
                 renderer.AddActor(SeminalVesicles[count])
+                renderer.AddActor(OrganRefActors[2])            
                 mark = "SV"
                 renderWindow.Render()
 				
             elif(mark == "Rectum"):
                 renderer.RemoveAllViewProps()
                 renderer.AddActor(Rectums[count])
+                renderer.AddActor(OrganRefActors[3])				
                 mark = "Rectum"
                 renderWindow.Render()
 
             elif(mark == "Prostate"):
                 renderer.RemoveAllViewProps()
                 renderer.AddActor(Prostates[count])
+                renderer.AddActor(OrganRefActors[1])				
                 mark = "Prostate"				
                 renderWindow.Render()
 				
@@ -85,24 +95,28 @@ class MyInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
                 if(mark == "Bladder"):
                     renderer.RemoveAllViewProps()
                     renderer.AddActor(Bladders[count])
+                    renderer.AddActor(OrganRefActors[0])
                     mark = "Bladder"
                     renderWindow.Render()
 					
                 elif(mark == "SV"):
                     renderer.RemoveAllViewProps()
                     renderer.AddActor(SeminalVesicles[count])
+                    renderer.AddActor(OrganRefActors[2])					
                     mark = "SV"
                     renderWindow.Render()
 					
                 elif(mark == "Rectum"):
                     renderer.RemoveAllViewProps()
                     renderer.AddActor(Rectums[count])
+                    renderer.AddActor(OrganRefActors[3])					
                     mark = "Rectum"
                     renderWindow.Render()
 
                 elif(mark == "Prostate"):
                     renderer.RemoveAllViewProps()
                     renderer.AddActor(Prostates[count])
+                    renderer.AddActor(OrganRefActors[1])					
                     mark = "Prostate"
                     renderWindow.Render()
 
@@ -328,6 +342,11 @@ def ShapeVariability(path,patientList,model,OrganLabel):
 			Matrx = Org-MeanPoints
 			Mat = np.dot(Matrx[:,np.newaxis],Matrx[np.newaxis,:])
 			M = M + Mat
+	
+	prod = 1/8
+	M = prod*M
+	vaps = np.linalg.svd(M, full_matrices=1, compute_uv=0)
+	return M ,vaps
 		
 def PointToPointDistance(referenceTree,polyData):
     global g_linePolygons
@@ -410,6 +429,45 @@ def ColorPoints(MeanDistanceOrganesList,OrganList):
 		OrganList[idx].GetPointData().SetScalars(colors)
 				
 	return OrganList
+def WholeVariationColors(MeanDistanceOrganesList,OrganList):
+	vec = MeanDistanceOrganesList
+	concatenated = []
+	print(vec)
+	for list in vec:
+		concatenated = np.concatenate((concatenated, list))	
+	
+	length = len(concatenated)
+	concatenated = np.array(concatenated)
+	indices = concatenated.argsort()
+	sortedDistances = concatenated[indices]
+	
+
+	quarter = int(length/4)
+	half = int(length/2)
+	three_quarter = half+quarter
+
+	distanceColorValues = [sortedDistances[three_quarter], sortedDistances[half], sortedDistances[quarter]]
+	 
+	
+	for idx, i in enumerate(MeanDistanceOrganesList):
+		distances = np.array(i)
+		
+		colors = vtk.vtkUnsignedCharArray()
+		colors.SetNumberOfComponents(3)
+		colors.SetName("colors")
+		for dist in distances:
+			if dist > distanceColorValues[0]:
+				colors.InsertNextTuple3(204,76,2) #Red
+			elif dist > distanceColorValues[1]:
+				colors.InsertNextTuple3(254,153,41) #Orange
+			elif dist > distanceColorValues[2]:
+				colors.InsertNextTuple3(254,217,142) #Yellow
+			else:
+				colors.InsertNextTuple3(255,255,212) #White
+		
+		OrganList[idx].GetPointData().SetScalars(colors)
+				
+	return OrganList
 def MakeLUT(tableSize):
     nc = vtk.vtkNamedColors()
  
@@ -467,7 +525,10 @@ OrganRefList.append(BladderRef[0])
 OrganRefList.append(ProstateRef[0])
 OrganRefList.append(SVRef[0])
 OrganRefList.append(RectumRef[0])
-
+OrganRefActors = CreateActors(OrganRefList)
+for actors in OrganRefActors:
+	actors.GetProperty().SetRepresentationToWireframe()
+	
 
 ##--- PATIENT DATA ---##
 BladdersOutPut = ExtractBladders(path,patientFile,1)[2]
@@ -502,15 +563,24 @@ for indx,OrganOutPut in enumerate(TotListOrgans):
 		(dist, colors) = PointToPointDistance(referenceTree, OrganOutPut[i])
 		distances.append(dist)
 		OrganOutPut[i].GetPointData().SetScalars(colors)
+	print ("for Organ",sum(distances))
 	meanDistances.append(sum(distances)/len(idspat))
-		
+
+
+	
 OrganList = ColorPoints(meanDistances,OrganRefList)
 OrganActors = CreateActors(OrganList)
+
+OrganListMean = WholeVariationColors(meanDistances,OrganRefList)
+OrganActorsMean = CreateActors(OrganListMean)
 		
 Bladders.append(OrganActors[0])
 Prostates.append(OrganActors[1])
 SeminalVesicles.append(OrganActors[2])
 Rectums.append(OrganActors[3])
+
+#vaps = ShapeVariability(path,patientList,model,1)
+#print(vaps)
 
 renderer = vtk.vtkRenderer()
 renderWindow = vtk.vtkRenderWindow()
