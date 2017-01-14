@@ -39,7 +39,7 @@ class ClickInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
             g_patientActors[i].GetProperty().SetOpacity(opacity)
         renderWindow.Render()
 
-    def MakeLineVisible(self, index):
+    def MakeLinesVisible(self, index):
         global g_patientActors
         global g_lineActors
 
@@ -49,7 +49,6 @@ class ClickInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
         for i in range(0,len(g_lineActors)):
             g_lineActors[i].GetProperty().SetOpacity(0)
 
-        #g_patientActors[index].GetProperty().SetOpacity(0.5)
         g_lineActors[index].GetProperty().SetOpacity(1)
         renderWindow.Render()
 
@@ -64,7 +63,6 @@ class ClickInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
             g_lineActors[i].GetProperty().SetOpacity(0)
 
         g_patientActors[index].GetProperty().SetOpacity(1)
-        #g_lineActors[index].GetProperty().SetOpacity(1)
         renderWindow.Render()
 
     def TogglePatientVisibility(self, index):
@@ -108,10 +106,10 @@ class ClickInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
             self.MakePatientVisible(self.visibleIndex)
         elif(key == "Up"):
             self.visibleIndex = min(self.visibleIndex+1, len(g_patientActors)-1)
-            self.MakeLineVisible(self.visibleIndex)
+            self.MakeLinesVisible(self.visibleIndex)
         elif(key == "Down"):
             self.visibleIndex = max(self.visibleIndex-1, 0)
-            self.MakeLineVisible(self.visibleIndex)
+            self.MakeLinesVisible(self.visibleIndex)
         elif(key == "m"):
             opacity = g_referenceActor.GetProperty().GetOpacity()
             g_referenceActor.GetProperty().SetOpacity(1-opacity)
@@ -186,10 +184,6 @@ def PointToPointDistance(referenceTree, polyData):
     dataPoints = vtk_to_numpy(polyData.GetPoints().GetData())
     numDataPoints = polyData.GetNumberOfPoints()
 
-    #colors = vtk.vtkUnsignedCharArray()
-    #colors.SetNumberOfComponents(3)
-    #colors.SetName("colors")
-
     points = vtk.vtkPoints()
     distances = []
 
@@ -198,10 +192,6 @@ def PointToPointDistance(referenceTree, polyData):
         (dist, index) = referenceTree.query(point, k=1, distance_upper_bound=100)
         distances.append(dist)
         mean = mean + dist
-
-        #redness = min(255, 10*int(dist))
-        #otherColors = 255 - redness
-        #colors.InsertNextTuple3(255,otherColors,otherColors)
 
         modelPoint = referenceTree.data[index]
         points.InsertNextPoint(point[0], point[1], point[2])
@@ -300,7 +290,6 @@ referenceTree = spatial.cKDTree(referencePoints, leafsize=10)
 
 print("Calculating point-to-point distance.")
 
-patientColors = []
 for i in range(0, len(patientData)):
     (dist, colors) = PointToPointDistance(referenceTree, patientData[i])
     distances.append(dist)
