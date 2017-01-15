@@ -440,8 +440,8 @@ def ColorPoints(MeanDistancePerOrgan,SpecColor):
 				
 		
 				
-	return colors
-def WholeVariationColors(MeanDistanceOrganesList,OrganList):
+	return colors,distanceColorValues
+def WholeVariationColors(MeanDistanceOrganesList):
 	vec = MeanDistanceOrganesList
 	concatenated = []
 	
@@ -477,9 +477,9 @@ def WholeVariationColors(MeanDistanceOrganesList,OrganList):
 			else:
 				colors.InsertNextTuple3(204,229,255) #White
 		
-		OrganList[idx].GetPointData().SetScalars(colors)
+		
 				
-	return OrganList
+	return colors
 def MakeLUT(tableSize):
     nc = vtk.vtkNamedColors()
  
@@ -576,7 +576,6 @@ referencePoints.append(BladderPoints)
 referencePoints.append(ProstatePoints)
 referencePoints.append(SVPoints)
 referencePoints.append(RectumPoints)
-print (np.array(referencePoints[0])[0])
 
 ##--- PATIENT DATA ---##
 BladdersOutPut = ExtractBladders(path,patientFile,1)[2]
@@ -607,35 +606,61 @@ TotListOrgans.append(RectumsOutPut)
 ##-- Calculating distances and colouring the cells
 meanDistances = []
 RGBList = ColorList()
-
+legends = []
 for indx,OrganOutPut in enumerate(TotListOrgans):
 	distances = []
-	legends = []
 	col = RGBList[indx]
 	for i in range(0, len(OrganOutPut)):
 		(dist, colors,legend) = PointToPointDistance(referencePoints[indx], OrganOutPut[i],col)
 		distances.append(dist)
 		legends.append(legend)
 		OrganOutPut[i].GetPointData().SetScalars(colors)
-	print ("for Patient 4 organs legend:",legends)
 	meanDistances.append(sum(distances)/len(idspat))
 
-ColoredOrganMeanList = list(OrganRefList) #Color each organ from the model with respect to the mean values
+#for i in range(0,len(legends)):
+	#print(legends[i])
+		
+	
+
+##-Color each organ from the model with respect to the mean values within each organ
+ColoredOrganMeanList = list(OrganRefList)
+LegendOrg = [] 
 for i in range(0,len(OrganRefList)):
-	colors = ColorPoints(meanDistances[i],RGBList[i])
+	(colors,legend) = ColorPoints(meanDistances[i],RGBList[i])
+	LegendOrg.append(legend)
 	ColoredOrganMeanList[i].GetPointData().SetScalars(colors)
+#print (LegendOrg)
 
-#print (ColoredOrganMeanList[0])	
 OrganActors = CreateActors(ColoredOrganMeanList)
-
 Bladders.append(OrganActors[0])
 Prostates.append(OrganActors[1])
 SeminalVesicles.append(OrganActors[2])
 Rectums.append(OrganActors[3])
 
-#OrganListMean = WholeVariationColors(meanDistances,OrganRefList)
-#OrganActorsMean = CreateActors(OrganListMean)
-		
+
+
+BRef = ExtractBladders(path,model,0)[2]
+PRef  = ExtractProstates(path,model,0)[2]
+SVesRef = ExtractSeminalVesicles(path,model,0)[2]
+RRef = ExtractRectums(path,model,0)[2]
+
+OrganRefList2 = []
+OrganRefList2.append(BRef[0])
+OrganRefList2.append(PRef[0])
+OrganRefList2.append(SVesRef[0])
+OrganRefList2.append(RRef[0])
+
+
+
+
+
+
+##-Color each patient with respect to the mean values of all the organs
+ColoredPatientListMean = list(OrganRefList2)
+colors = WholeVariationColors(meanDistances)
+for i in range(0,len(OrganRefList)):
+	ColoredPatientListMean[i].GetPointData().SetScalars(colors)
+OrganActorsMean = CreateActors(ColoredPatientListMean)		
 
 
 #vaps = ShapeVariability(path,patientList,model,1)
