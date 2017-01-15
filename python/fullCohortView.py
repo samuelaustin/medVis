@@ -179,6 +179,7 @@ def GetActor(data):
     return actor
 
 def PointToPointDistance(referenceTree, polyData):
+#def PointToPointDistance(referencePoints, polyData):
     global g_linePolygons
 
     dataPoints = vtk_to_numpy(polyData.GetPoints().GetData())
@@ -188,8 +189,9 @@ def PointToPointDistance(referenceTree, polyData):
     distances = []
 
     mean = 0
-    for point in dataPoints:
+    for idx,point in enumerate(dataPoints):
         (dist, index) = referenceTree.query(point, k=1, distance_upper_bound=100)
+        #dist = np.linalg.norm(point-referencePoints[idx])
         distances.append(dist)
         mean = mean + dist
 
@@ -292,6 +294,7 @@ print("Calculating point-to-point distance.")
 
 for i in range(0, len(patientData)):
     (dist, colors) = PointToPointDistance(referenceTree, patientData[i])
+    #(dist, colors) = PointToPointDistance(referencePoints, patientData[i])
     distances.append(dist)
     patientData[i].GetPointData().SetScalars(colors)
 print("Distances:")
