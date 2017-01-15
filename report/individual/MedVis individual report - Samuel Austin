@@ -1,0 +1,9 @@
+MedVis individual report - Samuel Austin
+
+At the beginning of the project I was focussed on looking at the possibilities of creating a plugin for mevislab for us to create our visualization in. Quite quickly this turned out to be harder than we expected so we decided to look at other possibilities. I started creating my own python script using VTK for python to create a standalone visualiztion. This was easier than creating a plugin for mevislab but creating a user interface would be a lot more work as we could not use the mevislab framework.
+
+In the end we decided to continue with a standalone python script and not worry about the user interface as we felt the visualization would be more important than a nice user interface. I set up some basic functionality for importing the data and visualizing it and implemented the point-to-point distance calculation between meshes. We used this data for creating a visualization of the difference between two meshes. I also created polylines based on the point-to-point data as an additional visualization and applied the same coloring as the mesh. 
+
+Because creating a user interface would take a lot of time I made it so you could control the visualiztion by button presses on the keyboard. This allowed us to quickly add functionality and be able to trigger it.
+
+For the report I initially focussed on describing the point-to-point calculation, how we used it for creating our visualizations and also discussed a bunch of the referenced papers in the related work section. For the rest I worked on various parts throughout the rest of the report.
